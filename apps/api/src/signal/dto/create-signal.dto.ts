@@ -1,9 +1,20 @@
+import { IsOptional, IsString, IsUrl, MaxLength, MinLength } from 'class-validator';
+
 export class CreateSignalDto {
+  @IsString()
+  @MinLength(3)
+  @MaxLength(200)
   title: string;
 
-  description: string;
+  @IsOptional()
+  @IsString()
+  description?: string;
 
-  source: string;
+  @IsOptional()
+  @IsString()
+  source?: string;
 
-  url: string;
+  @IsOptional()
+  @IsUrl()
+  url?: string;
 }

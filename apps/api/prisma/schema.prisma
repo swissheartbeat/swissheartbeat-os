@@ -1,0 +1,48 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum SignalStatus {
+  NEW
+  COLLECTING
+  VERIFIED
+  PUBLISHED
+  ARCHIVED
+}
+
+model Evidence {
+  id          String   @id @default(cuid())
+
+  signalId    String
+  signal      Signal   @relation(fields: [signalId], references: [id], onDelete: Cascade)
+
+  source      String
+  url         String
+
+  headline    String?
+  summary     String?
+
+  publishedAt DateTime?
+
+  credibility Float?
+
+  createdAt   DateTime @default(now())
+}
+
+model Signal {
+  id          String       @id @default(cuid())
+  title       String
+  description String?
+  source      String?
+  url         String?
+  status      SignalStatus @default(NEW)
+  createdAt   DateTime     @default(now())
+  updatedAt DateTime @default(now()) @updatedAt
+
+  evidences   Evidence[]
+}

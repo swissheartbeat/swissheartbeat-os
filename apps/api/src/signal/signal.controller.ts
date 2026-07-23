@@ -3,7 +3,7 @@ import { SignalService } from './signal.service';
 import { CreateSignalDto } from './dto/create-signal.dto';
 import { UpdateSignalDto } from './dto/update-signal.dto';
 
-@Controller('signal')
+@Controller('signals')
 export class SignalController {
   constructor(private readonly signalService: SignalService) {}
 
@@ -19,16 +19,16 @@ export class SignalController {
 
   @Get(':id')
   findOne(@Param('id') id: string) {
-    return this.signalService.findOne(+id);
+    return this.signalService.findOne(id);
   }
 
   @Patch(':id')
   update(@Param('id') id: string, @Body() updateSignalDto: UpdateSignalDto) {
-    return this.signalService.update(+id, updateSignalDto);
+    return this.signalService.update(id, updateSignalDto);
   }
 
   @Delete(':id')
   remove(@Param('id') id: string) {
-    return this.signalService.remove(+id);
+    return this.signalService.remove(id);
   }
 }

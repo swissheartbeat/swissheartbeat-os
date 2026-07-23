@@ -1,59 +1,53 @@
 import { Injectable } from '@nestjs/common';
+import { PrismaService } from '../prisma/prisma.service';
 import { CreateSignalDto } from './dto/create-signal.dto';
 import { UpdateSignalDto } from './dto/update-signal.dto';
-import * as crypto from 'crypto';
 
 @Injectable()
 export class SignalService {
+  constructor(private readonly prisma: PrismaService) {}
 
-  create(createSignalDto: CreateSignalDto) {
-    return {
-      id: crypto.randomUUID(),
-      status: 'NEW',
-      createdAt: new Date(),
-      ...createSignalDto,
-    };
+  async create(createSignalDto: CreateSignalDto) {
+    return this.prisma.signal.create({
+      data: {
+        title: createSignalDto.title,
+        description: createSignalDto.description,
+        source: createSignalDto.source,
+        url: createSignalDto.url,
+      },
+    });
   }
 
-  findAll() {
-    return [
-      {
-        id: 1,
-        title: 'Swiss National Bank',
-        status: 'NEW',
+  async findAll() {
+    return this.prisma.signal.findMany({
+      orderBy: {
+        createdAt: 'desc',
       },
-      {
-        id: 2,
-        title: 'Artificial Intelligence',
-        status: 'RESEARCH',
-      },
-      {
-        id: 3,
-        title: 'Energy Markets',
-        status: 'EVIDENCE',
-      },
-    ];
+    });
   }
 
-  findOne(id: number) {
-    return {
-      id,
-      title: 'Example Signal',
-      status: 'NEW',
-    };
+  async findOne(id: string) {
+    return this.prisma.signal.findUnique({
+      where: {
+        id,
+      },
+    });
   }
 
-  update(id: number, updateSignalDto: UpdateSignalDto) {
-    return {
-      message: `Signal ${id} updated`,
+    async update(id: string, updateSignalDto: UpdateSignalDto) {
+    return this.prisma.signal.update({
+      where: {
+        id,
+      },
       data: updateSignalDto,
-    };
+    });
   }
 
-  remove(id: number) {
-    return {
-      message: `Signal ${id} deleted`,
-    };
+  async remove(id: string) {
+    return this.prisma.signal.delete({
+      where: {
+        id,
+      },
+    });
   }
-
 }
