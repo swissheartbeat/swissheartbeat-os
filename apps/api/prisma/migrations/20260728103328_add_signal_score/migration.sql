@@ -1,0 +1,3 @@
+-- AlterTable
+ALTER TABLE "public"."Signal" ADD COLUMN     "priority" INTEGER NOT NULL DEFAULT 0,
+ADD COLUMN     "score" INTEGER NOT NULL DEFAULT 0;

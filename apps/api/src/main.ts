@@ -25,14 +25,12 @@ async function bootstrap() {
 
   SwaggerModule.setup('api', app, document);
 
-  await app.listen(process.env.PORT ?? 3001);
+  const port = Number(process.env.PORT ?? 3002);
 
-  console.log(
-    `🚀 SwissHeartbeat API running on http://localhost:${process.env.PORT ?? 3001}`,
-  );
-  console.log(
-    `📚 Swagger documentation: http://localhost:${process.env.PORT ?? 3001}/api`,
-  );
+  await app.listen(port);
+
+  console.log(`🚀 SwissHeartbeat API running on http://localhost:${port}`);
+  console.log(`📚 Swagger documentation: http://localhost:${port}/api`);
 }
 
 bootstrap();

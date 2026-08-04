@@ -56,4 +56,32 @@ export class EvidenceService {
       },
     });
   }
+  async collectEvidence(signalId: string) {
+  const signal = await this.prisma.signal.findUnique({
+    where: {
+      id: signalId,
+    },
+  });
+
+  if (!signal) {
+    throw new Error('Signal not found');
+  }
+
+  console.log(`🔎 Suche Evidence für: ${signal.title}`);
+
+  // Platzhalter
+  // Hier suchen wir später bei:
+  // Reuters
+  // Swissinfo
+  // NZZ
+  // Google News
+  // Bing News
+  // usw.
+
+  return {
+    signal,
+    evidenceFound: 0,
+    sources: [],
+  };
+}
 }

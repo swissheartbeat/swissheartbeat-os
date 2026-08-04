@@ -1,52 +1,73 @@
 import { Injectable } from '@nestjs/common';
+
 import { PrismaService } from '../prisma/prisma.service';
-import { CreateSignalDto } from './dto/create-signal.dto';
-import { UpdateSignalDto } from './dto/update-signal.dto';
+import { HeartbeatScorer } from './heartbeat.scorer';
 
 @Injectable()
 export class SignalService {
-  constructor(private readonly prisma: PrismaService) {}
+  constructor(
+    private readonly prisma: PrismaService,
+    private readonly heartbeatScorer: HeartbeatScorer,
+  ) {}
 
-  async create(createSignalDto: CreateSignalDto) {
-    return this.prisma.signal.create({
-      data: {
-        title: createSignalDto.title,
-        description: createSignalDto.description,
-        source: createSignalDto.source,
-        url: createSignalDto.url,
+  async importFromRss(article: {
+    title: string;
+    link: string;
+    source: string;
+    language: string;
+    category: string;
+    pubDate?: string;
+  }) {
+    const existing = await this.prisma.signal.findFirst({
+      where: {
+        url: article.link,
       },
     });
+
+    if (existing) {
+      return {
+        signal: existing,
+        created: false,
+      };
+    }
+
+    const heartbeat = this.heartbeatScorer.calculate({
+      source: article.source,
+      category: article.category,
+      publishedAt: article.pubDate
+        ? new Date(article.pubDate)
+        : undefined,
+    });
+
+    const signal = await this.prisma.signal.create({
+      data: {
+        title: article.title,
+        description: '',
+        source: article.source,
+        url: article.link,
+
+        language: article.language,
+        category: article.category,
+
+        publishedAt: article.pubDate
+          ? new Date(article.pubDate)
+          : null,
+
+        score: heartbeat.score,
+        priority: heartbeat.priority,
+      },
+    });
+
+    return {
+      signal,
+      created: true,
+    };
   }
 
   async findAll() {
     return this.prisma.signal.findMany({
       orderBy: {
-        createdAt: 'desc',
-      },
-    });
-  }
-
-  async findOne(id: string) {
-    return this.prisma.signal.findUnique({
-      where: {
-        id,
-      },
-    });
-  }
-
-    async update(id: string, updateSignalDto: UpdateSignalDto) {
-    return this.prisma.signal.update({
-      where: {
-        id,
-      },
-      data: updateSignalDto,
-    });
-  }
-
-  async remove(id: string) {
-    return this.prisma.signal.delete({
-      where: {
-        id,
+        priority: 'desc',
       },
     });
   }
