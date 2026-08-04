@@ -1,11 +1,18 @@
 import { Injectable } from '@nestjs/common';
+
 import { PrismaService } from '../prisma/prisma.service';
+
 import { CreateEvidenceDto } from './dto/create-evidence.dto';
 import { UpdateEvidenceDto } from './dto/update-evidence.dto';
 
+import { SrfProvider } from './providers/srf.provider';
+
 @Injectable()
 export class EvidenceService {
-  constructor(private readonly prisma: PrismaService) {}
+  constructor(
+    private readonly prisma: PrismaService,
+    private readonly srfProvider: SrfProvider,
+  ) {}
 
   async create(createEvidenceDto: CreateEvidenceDto) {
     return this.prisma.evidence.create({
@@ -56,32 +63,29 @@ export class EvidenceService {
       },
     });
   }
+
   async collectEvidence(signalId: string) {
-  const signal = await this.prisma.signal.findUnique({
-    where: {
-      id: signalId,
-    },
-  });
+    const signal = await this.prisma.signal.findUnique({
+      where: {
+        id: signalId,
+      },
+    });
 
-  if (!signal) {
-    throw new Error('Signal not found');
+    if (!signal) {
+      throw new Error('Signal not found');
+    }
+
+    console.log(`🔎 Suche Evidence für: ${signal.title}`);
+
+    const evidence = await this.srfProvider.search(signal.title);
+
+    console.log(`✅ SRF Provider lieferte ${evidence.length} Treffer`);
+
+    return {
+      signal,
+      evidenceFound: evidence.length,
+      sources: ['SRF'],
+      evidence,
+    };
   }
-
-  console.log(`🔎 Suche Evidence für: ${signal.title}`);
-
-  // Platzhalter
-  // Hier suchen wir später bei:
-  // Reuters
-  // Swissinfo
-  // NZZ
-  // Google News
-  // Bing News
-  // usw.
-
-  return {
-    signal,
-    evidenceFound: 0,
-    sources: [],
-  };
-}
 }
