@@ -1,4 +1,4 @@
- export interface EvidenceResult {
+export interface EvidenceResult {
   source: string;
   url: string;
 
@@ -11,5 +11,13 @@
 }
 
 export interface EvidenceProvider {
+  /**
+   * Anzeigename des Providers
+   */
+  readonly name: string;
+
+  /**
+   * Sucht nach Evidence
+   */
   search(query: string): Promise<EvidenceResult[]>;
 }

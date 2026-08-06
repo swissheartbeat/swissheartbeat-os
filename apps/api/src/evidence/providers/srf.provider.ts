@@ -7,10 +7,23 @@ import {
 
 @Injectable()
 export class SrfProvider implements EvidenceProvider {
-  async search(query: string): Promise<EvidenceResult[]> {
-    console.log(`🔎 SRF Provider sucht nach: ${query}`);
+  readonly name = 'SRF';
 
-    // Hier kommt später die echte Suche
-    return [];
+  async search(query: string): Promise<EvidenceResult[]> {
+    console.log(`🔎 ${this.name} Provider sucht nach: ${query}`);
+
+    // Temporärer Dummy
+    // Im nächsten Schritt wird hier der echte RSS-/API-Parser eingebaut.
+
+    return [
+      {
+        source: this.name,
+        url: `https://www.srf.ch/search?q=${encodeURIComponent(query)}`,
+        headline: query,
+        summary: `Dummy Evidence generated for "${query}"`,
+        publishedAt: new Date(),
+        credibility: 90,
+      },
+    ];
   }
 }

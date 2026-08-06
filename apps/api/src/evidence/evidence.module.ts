@@ -5,6 +5,7 @@ import { PrismaModule } from '../prisma/prisma.module';
 import { EvidenceController } from './evidence.controller';
 import { EvidenceService } from './evidence.service';
 
+import { ProviderManager } from './providers/provider.manager';
 import { SrfProvider } from './providers/srf.provider';
 
 @Module({
@@ -18,11 +19,13 @@ import { SrfProvider } from './providers/srf.provider';
 
   providers: [
     EvidenceService,
+    ProviderManager,
     SrfProvider,
   ],
 
   exports: [
     EvidenceService,
+    ProviderManager,
     SrfProvider,
   ],
 })

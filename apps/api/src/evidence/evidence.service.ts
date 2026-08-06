@@ -5,13 +5,14 @@ import { PrismaService } from '../prisma/prisma.service';
 import { CreateEvidenceDto } from './dto/create-evidence.dto';
 import { UpdateEvidenceDto } from './dto/update-evidence.dto';
 
-import { SrfProvider } from './providers/srf.provider';
+import { ProviderManager } from './providers/provider.manager';
+import { EvidenceResult } from './providers/provider.interface';
 
 @Injectable()
 export class EvidenceService {
   constructor(
     private readonly prisma: PrismaService,
-    private readonly srfProvider: SrfProvider,
+    private readonly providerManager: ProviderManager,
   ) {}
 
   async create(createEvidenceDto: CreateEvidenceDto) {
@@ -75,17 +76,57 @@ export class EvidenceService {
       throw new Error('Signal not found');
     }
 
+    console.log('===================================');
     console.log(`🔎 Suche Evidence für: ${signal.title}`);
 
-    const evidence = await this.srfProvider.search(signal.title);
+    const providers = this.providerManager.getProviders();
 
-    console.log(`✅ SRF Provider lieferte ${evidence.length} Treffer`);
+    const allEvidence: EvidenceResult[] = [];
+
+    for (const provider of providers) {
+      console.log(`🔎 Durchsuche ${provider.name}...`);
+
+      const results = await provider.search(signal.title);
+
+      console.log(`✅ ${provider.name}: ${results.length} Treffer`);
+
+      for (const item of results) {
+        const existing = await this.prisma.evidence.findFirst({
+          where: {
+            signalId,
+            url: item.url,
+          },
+        });
+
+        if (!existing) {
+          await this.prisma.evidence.create({
+            data: {
+              signalId,
+              source: item.source,
+              url: item.url,
+              headline: item.headline,
+              summary: item.summary,
+              publishedAt: item.publishedAt ?? null,
+              credibility: item.credibility ?? 50,
+            },
+          });
+
+          console.log(`💾 Evidence gespeichert: ${item.source}`);
+        } else {
+          console.log(`⏭️ Evidence bereits vorhanden: ${item.source}`);
+        }
+
+        allEvidence.push(item);
+      }
+    }
+
+    console.log(`📚 Insgesamt ${allEvidence.length} Evidence gefunden.`);
 
     return {
       signal,
-      evidenceFound: evidence.length,
-      sources: ['SRF'],
-      evidence,
+      evidenceFound: allEvidence.length,
+      sources: providers.map((provider) => provider.name),
+      evidence: allEvidence,
     };
   }
 }
