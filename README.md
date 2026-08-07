@@ -1,155 +1,227 @@
 # SwissHeartbeat OS
 
-> **The Operating System for Trusted Knowledge**
+<p align="center">
+
+# ❤️ SwissHeartbeat OS
+
+### The Knowledge Operating System for Journalism
+
+Collect • Verify • Understand • Publish
+
+</p>
 
 ---
 
-## Vision
+## What is SwissHeartbeat?
 
-SwissHeartbeat is a Knowledge Operating System designed to transform information into trusted, explainable and continuously evolving knowledge.
+SwissHeartbeat OS is an AI-native Knowledge Operating System designed for modern journalism.
 
-Unlike traditional Content Management Systems (CMS), SwissHeartbeat manages **living knowledge** instead of static documents.
+Instead of simply aggregating news, SwissHeartbeat continuously transforms information into structured knowledge.
 
----
+It collects information from trusted sources, verifies evidence, calculates credibility, detects consensus and contradictions, and prepares knowledge for AI-powered publishing.
 
-## Mission
-
-Our mission is to build the infrastructure for trusted knowledge in the age of Artificial Intelligence.
-
-SwissHeartbeat enables organizations to collect, verify, connect, version and publish knowledge through transparent workflows.
+SwissHeartbeat is the intelligence engine behind Swissvox.
 
 ---
 
-## Knowledge Lifecycle
+# Vision
+
+The internet produces information.
+
+SwissHeartbeat produces knowledge.
+
+---
+
+# Core Pipeline
 
 ```text
-Signal
-   ↓
-Research
-   ↓
-Evidence
-   ↓
-Knowledge
-   ↓
-Review
-   ↓
-Trust
-   ↓
-Publish
-   ↓
-Learn
+Internet
+
+↓
+
+RSS
+APIs
+Web Crawlers
+Documents
+Social Media
+
+↓
+
+Connectors
+
+↓
+
+Signal Engine
+
+↓
+
+Evidence Engine
+
+↓
+
+Trust Engine
+
+↓
+
+Knowledge Layer
+
+↓
+
+AI Agents
+
+↓
+
+Publishing
+
+↓
+
+Swissvox
 ```
 
 ---
 
-## MVP
+# Current Features
 
-The first version demonstrates one complete workflow:
+✅ NestJS Backend
 
-```text
-Signal
-   ↓
-Evidence
-   ↓
-Intelligence File
-   ↓
-Publish
-```
+✅ PostgreSQL
 
----
+✅ Prisma ORM
 
-## Architecture
+✅ RSS Collector
 
-```
-Next.js
-    ↓
-REST API
-    ↓
-NestJS
-    ↓
-Prisma ORM
-    ↓
-PostgreSQL
-```
+✅ Signal Detection
 
-SwissHeartbeat starts as a **Modular Monolith** and is designed to evolve into a distributed platform.
+✅ Heartbeat Scoring
+
+✅ Multi Source Evidence
+
+✅ Trust Engine
+
+✅ Analysis Engine
+
+✅ Swagger API
 
 ---
 
-## Repository Structure
+# Project Structure
 
 ```text
 apps/
-backend/
-packages/
+    api/
+    web/
+
 docs/
-blueprint/
+
+packages/
+
 database/
+
+generated/
 ```
 
 ---
 
-## Engineering Principles
+# Documentation
 
-- Knowledge First
-- Evidence First
-- Trust by Design
-- API First
-- Version Everything
-- Explain Everything
-- Human Accountability
-- Open Architecture
+Project documentation can be found inside:
 
----
+```text
+docs/
+```
 
-## Current Status
+Main documents:
 
-| Item | Value |
-|------|-------|
-| Version | v0.1 Alpha |
-| Codename | Genesis |
-| Sprint | Foundation |
+- ARCHITECTURE.md
+- ROADMAP.md
+- API.md
+- DATABASE.md
+- CONNECTORS.md
+- KNOWLEDGE.md
+- AGENTS.md
 
 ---
 
-## Roadmap
+# Technology Stack
 
-- v0.1 Foundation
-- v0.2 Evidence
-- v0.3 Trust
-- v0.4 Knowledge Graph
-- v0.5 AI Integration
-- v1.0 Public Release
-
----
-
-## Technology Stack
-
-### Frontend
-
-- Next.js
-- React
-- TypeScript
-- Tailwind CSS
-
-### Backend
+Backend
 
 - NestJS
+- TypeScript
 - Prisma
 - PostgreSQL
 
-### Infrastructure
+Infrastructure
 
-- Docker
-- GitHub Actions
+- TurboRepo
+- PNPM
+
+Documentation
+
+- Markdown
+- Obsidian
 
 ---
 
-## License
+# Long-term Goals
 
-Apache 2.0
+SwissHeartbeat is evolving into a complete Knowledge Operating System.
+
+Future capabilities include:
+
+- Knowledge Graph
+- Entity Extraction
+- Timeline Generation
+- AI Fact Checking
+- AI Summaries
+- Semantic Search
+- Research Agents
+- Podcast Generation
+- Newsletter Automation
+- Swissvox Publishing
 
 ---
 
-**SwissHeartbeat**  
-*The Operating System for Trusted Knowledge.*
+# Roadmap
+
+Current version
+
+```
+v0.5
+```
+
+Current focus
+
+```
+Real RSS Connectors
+Knowledge Layer
+AI Agents
+```
+
+Detailed roadmap:
+
+```
+docs/ROADMAP.md
+```
+
+---
+
+# Philosophy
+
+Truth over speed.
+
+Evidence before opinion.
+
+Trust through transparency.
+
+AI assists humans.
+
+Knowledge compounds.
+
+---
+
+# License
+
+Private repository.
+
+Copyright © SwissHeartbeat
