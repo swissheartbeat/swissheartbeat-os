@@ -6,7 +6,9 @@ import { EvidenceController } from './evidence.controller';
 import { EvidenceService } from './evidence.service';
 
 import { ProviderManager } from './providers/provider.manager';
+
 import { SrfProvider } from './providers/srf.provider';
+import { SwissinfoProvider } from './providers/swissinfo.provider';
 
 @Module({
   imports: [
@@ -21,12 +23,14 @@ import { SrfProvider } from './providers/srf.provider';
     EvidenceService,
     ProviderManager,
     SrfProvider,
+    SwissinfoProvider,
   ],
 
   exports: [
     EvidenceService,
     ProviderManager,
     SrfProvider,
+    SwissinfoProvider,
   ],
 })
 export class EvidenceModule {}
